@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -21,17 +21,17 @@ public class UserController {
         return userService.getUserByUsername(username);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public User addUser(@RequestBody User user) {
         return userService.addUser(user);
     }
     
-    @PutMapping
+    @PutMapping("/edit")
     public User editUser(@RequestBody User user) {
         return userService.editUser(user);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteUser(@PathVariable int id) {
         userService.deleteUser(id);
     }

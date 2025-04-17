@@ -1,13 +1,9 @@
 package com.recipes.recipes.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import java.util.List;
 
 @Entity
 public class User {
@@ -18,6 +14,27 @@ public class User {
     private String username;
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Recipe> recipes;
+    public int getId() { 
+        return id; 
+    }
+
+    public void setId(int id) { 
+        this.id = id; 
+    }
+
+    public String getUsername() { 
+        return username; 
+    }
+
+    public void setUsername(String username) { 
+        this.username = username; 
+    }
+
+    public String getPassword() { 
+        return password; 
+    }
+
+    public void setPassword(String password) { 
+        this.password = password; 
+    }
 }

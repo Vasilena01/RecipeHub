@@ -12,7 +12,12 @@ public class RecipeController {
     @Autowired
     private RecipeService recipeService;
 
-    @GetMapping("/user/{userId}/recipes")
+    @GetMapping
+    public List<Recipe> getAllRecipes() {
+        return recipeService.getAllRecipes();
+    }
+
+    @GetMapping("/user/{userId}")
     public List<Recipe> getRecipesByUser(@PathVariable int userId) {
         return recipeService.getRecipesByUserId(userId);
     }
@@ -22,17 +27,17 @@ public class RecipeController {
         return recipeService.getRecipeById(id);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public Recipe addRecipe(@RequestBody Recipe recipe) {
         return recipeService.addRecipe(recipe);
     }
 
-    @PutMapping
+    @PutMapping("/edit")
     public Recipe editRecipe(@RequestBody Recipe recipe) {
         return recipeService.editRecipe(recipe);
     }
 
-    @DeleteMapping("/id")
+    @DeleteMapping("/delete/{id}")
     public void deleteRecipe(@PathVariable int id) {
         recipeService.deleteRecipe(id);
     }
