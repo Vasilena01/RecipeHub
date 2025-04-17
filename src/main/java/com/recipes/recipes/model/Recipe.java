@@ -3,6 +3,8 @@ package com.recipes.recipes.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.persistence.Id;
 
 @Entity
@@ -11,9 +13,15 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotBlank(message = "Recipe title is required")
     private String title;
+
+    @NotBlank(message = "Recipe description is required")
     private String description;
+
     private String imageUrl;
+
+    @NotNull(message = "User ID is required")
     private int userId;
 
     public int getId() {

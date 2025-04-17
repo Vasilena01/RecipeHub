@@ -3,6 +3,7 @@ import com.recipes.recipes.model.User;
 import com.recipes.recipes.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,12 +23,12 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public User addUser(@RequestBody User user) {
+    public User addUser(@Valid @RequestBody User user) {
         return userService.addUser(user);
     }
     
     @PutMapping("/edit")
-    public User editUser(@RequestBody User user) {
+    public User editUser(@Valid @RequestBody User user) {
         return userService.editUser(user);
     }
 

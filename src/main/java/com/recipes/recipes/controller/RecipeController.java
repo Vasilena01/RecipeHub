@@ -3,7 +3,7 @@ import com.recipes.recipes.model.Recipe;
 import com.recipes.recipes.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -28,12 +28,12 @@ public class RecipeController {
     }
 
     @PostMapping("/add")
-    public Recipe addRecipe(@RequestBody Recipe recipe) {
+    public Recipe addRecipe(@Valid @RequestBody Recipe recipe) {
         return recipeService.addRecipe(recipe);
     }
 
     @PutMapping("/edit")
-    public Recipe editRecipe(@RequestBody Recipe recipe) {
+    public Recipe editRecipe(@Valid @RequestBody Recipe recipe) {
         return recipeService.editRecipe(recipe);
     }
 
