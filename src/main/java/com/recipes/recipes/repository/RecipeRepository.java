@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
-    List<Recipe> findByUserId(int user_id);
+    List<Recipe> findByUserId(int userId);
 
     @Query("SELECT r FROM Recipe r JOIN r.tags t WHERE t.name = :tagName")
     List<Recipe> findRecipesByTagName(@Param("tagName") String tagName);

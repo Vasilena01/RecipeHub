@@ -1,6 +1,8 @@
 package com.recipes.recipes.service;
 import com.recipes.recipes.model.Tag;
+import com.recipes.recipes.model.Recipe;
 import com.recipes.recipes.repository.TagRepository;
+import com.recipes.recipes.repository.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,8 @@ public class TagServiceImpl implements TagService {
 
     @Autowired
     private TagRepository tagRepository;
+    @Autowired
+    private RecipeRepository recipeRepository;
 
     @Override
     public List<Tag> getAllTags() {
@@ -46,6 +50,19 @@ public class TagServiceImpl implements TagService {
             throw new IllegalArgumentException("Tag name cannot be null or empty.");
         }
         Optional<Tag> tag = tagRepository.findByName(name);
-        tag.ifPresent(tagRepository::delete);
+        if (tag.isPresent()) {
+            List<Recipe> recipes = recipeRepository.findRecipesByTagName(name);
+
+            //  Delete all tag occurences in recipes, if there are recipes containing it
+            if (recipes != null && ! recipes.isEmpty()) {
+                for (Recipe recipe: recipes) {
+                    recipe.getTags().remove(tag.get());
+                    recipeRepository.save(recipe);
+                }
+            }
+            tagRepository.delete(tag.get());
+        } else {
+            throw new IllegalArgumentException("Tag doesn't exist.");
+        }
     }
 }

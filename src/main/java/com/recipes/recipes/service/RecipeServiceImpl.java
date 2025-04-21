@@ -8,6 +8,7 @@ import com.recipes.recipes.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RecipeServiceImpl implements RecipeService {
@@ -34,16 +35,16 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Recipe> findRecipesByTagName(String tagName) {
-        System.out.println(tagName);
         if(tagName == null || tagName.trim().isEmpty()) {
             throw new IllegalArgumentException("Invalid tag name.");        
         }
 
-        List<Recipe> recipes = recipeRepository.findRecipesByTagName(tagName);
-
-        if (recipes.isEmpty()) {
-            throw new RuntimeException("No recipes found with tag: " + tagName);
+        Optional<Tag> tag = tagRepository.findByName(tagName);
+        if (!tag.isPresent()) {
+            throw new IllegalArgumentException("Tag with the name: " + tagName + " doesn't exist.");        
         }
+
+        List<Recipe> recipes = recipeRepository.findRecipesByTagName(tagName);
         return recipes;
     }
 
@@ -71,10 +72,11 @@ public class RecipeServiceImpl implements RecipeService {
             throw new IllegalArgumentException("Recipe must have a valid ID to be edited.");
         }
     
-        Recipe existing = recipeRepository.findById(recipe.getId())
-            .orElseThrow(() -> new RuntimeException("Recipe with id " + recipe.getId() + " does not exist."));
-
-        return recipeRepository.save(existing);
+        Optional<Recipe> existing = recipeRepository.findById(recipe.getId());
+        if (!existing.isPresent()) {
+            new RuntimeException("Recipe with id " + recipe.getId() + " does not exist.");
+        }
+        return recipeRepository.save(recipe);
     }
 
     @Override
@@ -86,7 +88,7 @@ public class RecipeServiceImpl implements RecipeService {
             .orElseThrow(() -> new RuntimeException("Tag with name " + tagName + " does not exist."));
 
         if (!recipe.getTags().contains(tag)) {
-            throw new RuntimeException("Tag '" + tagName + "' is not associated with recipe id: " + recipeId);
+            throw new RuntimeException("Tag " + tagName + " is not associated with recipe id: " + recipeId);
         }
 
         recipe.getTags().remove(tag);
