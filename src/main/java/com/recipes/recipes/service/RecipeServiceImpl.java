@@ -1,7 +1,9 @@
 package com.recipes.recipes.service;
 import com.recipes.recipes.model.Recipe;
+import com.recipes.recipes.model.Tag;
 import com.recipes.recipes.repository.RecipeRepository;
 import com.recipes.recipes.repository.UserRepository;
+import com.recipes.recipes.repository.TagRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ public class RecipeServiceImpl implements RecipeService {
     private RecipeRepository recipeRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private TagRepository tagRepository;
 
     @Override
     public List<Recipe> getAllRecipes() {
@@ -71,6 +75,22 @@ public class RecipeServiceImpl implements RecipeService {
             .orElseThrow(() -> new RuntimeException("Recipe with id " + recipe.getId() + " does not exist."));
 
         return recipeRepository.save(existing);
+    }
+
+    @Override
+    public void removeTagFromRecipe(int recipeId, String tagName) {
+        Recipe recipe = recipeRepository.findById(recipeId)
+            .orElseThrow(() -> new RuntimeException("Recipe with id " + recipeId + " does not exist."));
+
+        Tag tag = tagRepository.findByName(tagName)
+            .orElseThrow(() -> new RuntimeException("Tag with name " + tagName + " does not exist."));
+
+        if (!recipe.getTags().contains(tag)) {
+            throw new RuntimeException("Tag '" + tagName + "' is not associated with recipe id: " + recipeId);
+        }
+
+        recipe.getTags().remove(tag);
+        recipeRepository.save(recipe);
     }
 
     @Override

@@ -42,6 +42,13 @@ public class RecipeController {
         return recipeService.editRecipe(recipe);
     }
 
+    @DeleteMapping("/{recipeId}/delete/{tagName}")
+    public void removeTagFromRecipe(@PathVariable int recipeId, @PathVariable String tagName) {
+        System.out.println(recipeId);
+        System.out.println(tagName);
+        recipeService.removeTagFromRecipe(recipeId, tagName);
+    }
+
     @DeleteMapping("/delete/{id}")
     public void deleteRecipe(@PathVariable int id) {
         recipeService.deleteRecipe(id);

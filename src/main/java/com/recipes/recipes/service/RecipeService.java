@@ -9,5 +9,6 @@ public interface RecipeService {
     Recipe getRecipeById(int id);
     Recipe addRecipe(Recipe recipe);
     Recipe editRecipe(Recipe recipe);
+    void removeTagFromRecipe(int recipeId, String tagName);
     void deleteRecipe(int id);
 }
