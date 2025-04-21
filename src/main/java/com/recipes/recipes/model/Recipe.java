@@ -1,11 +1,8 @@
 package com.recipes.recipes.model;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.persistence.Id;
+import java.util.List;
 
 @Entity
 public class Recipe {
@@ -23,6 +20,15 @@ public class Recipe {
 
     @NotNull(message = "User ID is required")
     private int userId;
+
+    @ManyToMany
+    @JoinTable(
+        name = "recipeTags",
+        joinColumns = @JoinColumn(name = "recipe_id"),
+        inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private List<Tag> tags;
+
 
     public int getId() {
         return id;
@@ -62,5 +68,13 @@ public class Recipe {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 }

@@ -27,6 +27,11 @@ public class RecipeController {
         return recipeService.getRecipeById(id);
     }
 
+    @GetMapping("/tag/{tagName}")
+    public List<Recipe> findRecipesByTagName(@PathVariable String tagName) {
+        return recipeService.findRecipesByTagName(tagName);
+    }
+
     @PostMapping("/add")
     public Recipe addRecipe(@Valid @RequestBody Recipe recipe) {
         return recipeService.addRecipe(recipe);
