@@ -17,6 +17,11 @@ public class RecipeController {
         return recipeService.getAllRecipes();
     }
 
+    @GetMapping("/visible/{userId}")
+    public List<Recipe> getPublicOrOwnRecipes(@PathVariable int userId) {
+        return recipeService.getPublicOrOwnRecipes(userId);
+    }
+
     @GetMapping("/user/{userId}")
     public List<Recipe> getRecipesByUser(@PathVariable int userId) {
         return recipeService.getRecipesByUserId(userId);

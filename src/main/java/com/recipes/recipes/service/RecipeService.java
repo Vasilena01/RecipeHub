@@ -4,6 +4,7 @@ import java.util.List;
 
 public interface RecipeService {
     List<Recipe> getAllRecipes();
+    List<Recipe> getPublicOrOwnRecipes(int userId);
     List<Recipe> getRecipesByUserId(int userId);
     List<Recipe> findRecipesByTagName(String tagName);
     Recipe getRecipeById(int id);

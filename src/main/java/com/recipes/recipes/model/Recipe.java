@@ -1,6 +1,7 @@
 package com.recipes.recipes.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
@@ -20,6 +21,9 @@ public class Recipe {
 
     @NotNull(message = "User ID is required")
     private int userId;
+
+    @Column(nullable = false)
+    private boolean isPrivate = false;
 
     @ManyToMany
     @JoinTable(
@@ -68,6 +72,14 @@ public class Recipe {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public boolean getIsPrivate() {
+        return isPrivate;
+    }
+
+    public void setIsPrivate(boolean status) {
+        this.isPrivate = status;
     }
 
     public List<Tag> getTags() {

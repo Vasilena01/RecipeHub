@@ -26,6 +26,11 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    public List<Recipe> getPublicOrOwnRecipes(int userId) {
+        return recipeRepository.findPublicOrOwnRecipes(userId);
+    }
+
+    @Override
     public List<Recipe> getRecipesByUserId(int id) {
         if (!userRepository.existsById(id)) {
             throw new RuntimeException("User with id " + id + " does not exist.");

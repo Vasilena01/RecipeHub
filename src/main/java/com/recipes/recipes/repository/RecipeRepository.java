@@ -12,4 +12,7 @@ public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
 
     @Query("SELECT r FROM Recipe r JOIN r.tags t WHERE t.name = :tagName")
     List<Recipe> findRecipesByTagName(@Param("tagName") String tagName);
+
+    @Query("SELECT r FROM Recipe r WHERE r.isPrivate = false OR r.userId = :userId")
+    List<Recipe> findPublicOrOwnRecipes(@Param("userId") int userId);
 }
