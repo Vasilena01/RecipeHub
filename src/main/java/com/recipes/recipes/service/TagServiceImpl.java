@@ -51,7 +51,7 @@ public class TagServiceImpl implements TagService {
         }
         Optional<Tag> tag = tagRepository.findByName(name);
         if (tag.isPresent()) {
-            List<Recipe> recipes = recipeRepository.findRecipesByTagName(name);
+            List<Recipe> recipes = recipeRepository.findRecipesByTags(List.of(name));
 
             //  Delete all tag occurences in recipes, if there are recipes containing it
             if (recipes != null && ! recipes.isEmpty()) {

@@ -39,17 +39,17 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<Recipe> findRecipesByTagName(String tagName) {
-        if(tagName == null || tagName.trim().isEmpty()) {
+    public List<Recipe> findRecipesByTagNames(List<String> tags) {
+        if(tags == null || tags.isEmpty()) {
             throw new IllegalArgumentException("Invalid tag name.");        
         }
 
-        Optional<Tag> tag = tagRepository.findByName(tagName);
-        if (!tag.isPresent()) {
-            throw new IllegalArgumentException("Tag with the name: " + tagName + " doesn't exist.");        
+        List<Tag> validTags = tagRepository.findTagsByNameIn(tags);
+        if (validTags.isEmpty()) {
+            throw new IllegalArgumentException("No matching tags found.");
         }
 
-        List<Recipe> recipes = recipeRepository.findRecipesByTagName(tagName);
+        List<Recipe> recipes = recipeRepository.findRecipesByTags(tags);
         return recipes;
     }
 

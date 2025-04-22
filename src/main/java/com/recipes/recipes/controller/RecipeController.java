@@ -32,9 +32,9 @@ public class RecipeController {
         return recipeService.getRecipeById(id);
     }
 
-    @GetMapping("/tag/{tagName}")
-    public List<Recipe> findRecipesByTagName(@PathVariable String tagName) {
-        return recipeService.findRecipesByTagName(tagName);
+    @GetMapping("/tags")
+    public List<Recipe> findRecipesByTagName(@RequestParam List<String> tags) {
+        return recipeService.findRecipesByTagNames(tags);
     }
 
     @PostMapping("/add")
