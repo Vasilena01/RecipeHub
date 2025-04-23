@@ -51,10 +51,11 @@ public class RecipeController {
     }
 
     @GetMapping("/tags")
-    public ResponseEntity<ApiResponse<List<Recipe>>> findRecipesByTagName(@RequestParam List<String> tags) {
-        List<Recipe> recipes = recipeService.findRecipesByTagNames(tags);
+    public ResponseEntity<ApiResponse<List<Recipe>>> findRecipesByTags(
+        @RequestParam List<String> tags, @RequestParam int userId) {
+        List<Recipe> recipes = recipeService.findPublicOrOwnRecipesByTags(tags, userId);
         ApiResponse<List<Recipe>> response = new ApiResponse<List<Recipe>>(
-            "Recipes by given tags fetched successfully", recipes, 200);
+            "All public and current user's recipes with given tags fetched successfully", recipes, 200);
         return ResponseEntity.ok(response);
     }
 

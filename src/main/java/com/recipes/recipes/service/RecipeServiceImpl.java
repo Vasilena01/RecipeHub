@@ -27,6 +27,9 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public List<Recipe> getPublicOrOwnRecipes(int userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new RuntimeException("User with id " + userId + " does not exist.");
+        }
         return recipeRepository.findPublicOrOwnRecipes(userId);
     }
 
@@ -39,7 +42,11 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<Recipe> findRecipesByTagNames(List<String> tags) {
+    public List<Recipe> findPublicOrOwnRecipesByTags(List<String> tags, int userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new RuntimeException("User with id " + userId + " does not exist.");
+        }
+
         if(tags == null || tags.isEmpty()) {
             throw new IllegalArgumentException("Invalid tag name.");        
         }
@@ -49,7 +56,7 @@ public class RecipeServiceImpl implements RecipeService {
             throw new IllegalArgumentException("No matching tags found.");
         }
 
-        List<Recipe> recipes = recipeRepository.findRecipesByTags(tags);
+        List<Recipe> recipes = recipeRepository.findPublicOrOwnRecipesByTags(tags, userId);
         return recipes;
     }
 

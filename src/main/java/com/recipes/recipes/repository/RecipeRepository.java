@@ -10,8 +10,12 @@ import java.util.List;
 public interface RecipeRepository extends JpaRepository<Recipe, Integer> {
     List<Recipe> findByUserId(int userId);
 
-    @Query("SELECT DISTINCT r FROM Recipe r JOIN r.tags t WHERE t.name IN :tags")
-    List<Recipe> findRecipesByTags(@Param("tags") List<String> tags);
+    @Query("SELECT DISTINCT r FROM Recipe r JOIN r.tags t WHERE t.name = :tagName")
+    List<Recipe> findRecipesByTagName(@Param("tagName") String tagName);
+
+    @Query("SELECT DISTINCT r FROM Recipe r JOIN r.tags t WHERE t.name IN :tags AND" +
+        "(r.isPrivate = false OR r.userId = :userId)")
+    List<Recipe> findPublicOrOwnRecipesByTags(@Param("tags") List<String> tags, @Param("userId") int userId);
 
     @Query("SELECT r FROM Recipe r WHERE r.isPrivate = false OR r.userId = :userId")
     List<Recipe> findPublicOrOwnRecipes(@Param("userId") int userId);

@@ -6,7 +6,7 @@ public interface RecipeService {
     List<Recipe> getAllRecipes();
     List<Recipe> getPublicOrOwnRecipes(int userId);
     List<Recipe> getRecipesByUserId(int userId);
-    List<Recipe> findRecipesByTagNames(List<String> tags);
+    List<Recipe> findPublicOrOwnRecipesByTags(List<String> tags, int userId);
     Recipe getRecipeById(int id);
     Recipe addRecipe(Recipe recipe);
     Recipe editRecipe(Recipe recipe);
