@@ -1,13 +1,16 @@
 package com.recipes.recipes.controller;
 
-import com.recipes.recipes.dto.UserLogin;
-import com.recipes.recipes.dto.UserRegister;
 import com.recipes.recipes.model.User;
+import com.recipes.recipes.dto.UserLogin;
+import com.recipes.recipes.dto.ApiResponse;
+import com.recipes.recipes.dto.UserRegister;
 import com.recipes.recipes.service.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @RestController
 @RequestMapping("/auth")
@@ -17,14 +20,16 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/register")
-    public User register(@Valid @RequestBody UserRegister registerRequest) {
+    public ResponseEntity<ApiResponse<User>> register(@Valid @RequestBody UserRegister registerRequest) {
         User newUser = authService.register(registerRequest);
-        return newUser;
+        ApiResponse<User> response = new ApiResponse<User>("User registered successfully", newUser, 201);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/login")
-    public User login(@Valid @RequestBody UserLogin loginRequest) {
+    public ResponseEntity<ApiResponse<User>> login(@Valid @RequestBody UserLogin loginRequest) {
         User loggedInUser = authService.login(loginRequest);
-        return loggedInUser;
+        ApiResponse<User> response = new ApiResponse<User>("User loged in successfully", loggedInUser, 200);
+        return ResponseEntity.ok(response);
     }
 }
