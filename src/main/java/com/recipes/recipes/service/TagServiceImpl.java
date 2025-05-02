@@ -16,6 +16,8 @@ public class TagServiceImpl implements TagService {
     private TagRepository tagRepository;
     @Autowired
     private RecipeRepository recipeRepository;
+    @Autowired
+    private RecipeService recipeService;
 
     @Override
     public List<Tag> getAllTags() {
@@ -56,8 +58,7 @@ public class TagServiceImpl implements TagService {
             //  Delete all tag occurences in recipes, if there are recipes containing it
             if (recipes != null && ! recipes.isEmpty()) {
                 for (Recipe recipe: recipes) {
-                    recipe.getTags().remove(tag.get());
-                    recipeRepository.save(recipe);
+                    recipeService.removeTagFromRecipe(recipe.getId(), name);
                 }
             }
             tagRepository.delete(tag.get());
