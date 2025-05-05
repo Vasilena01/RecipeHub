@@ -1,6 +1,8 @@
 package com.recipes.recipes.service;
 import com.recipes.recipes.model.User;
 import com.recipes.recipes.repository.UserRepository;
+
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -32,6 +34,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User addUser(User user) {
         if (user == null || user.getUsername().trim() == null || user.getUsername().trim().isEmpty()) {
             throw new IllegalArgumentException("User or username cannot be null or empty.");
@@ -46,6 +49,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User editUser(User user) {
         if (user == null || user.getId() == 0) {
             throw new IllegalArgumentException("User or user ID must be valid.");
@@ -60,6 +64,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(int id) {
         Optional<User> existingUser = userRepository.findById(id);
         if (existingUser.isEmpty()) {

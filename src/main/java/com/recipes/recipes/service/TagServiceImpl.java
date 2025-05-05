@@ -3,6 +3,8 @@ import com.recipes.recipes.model.Tag;
 import com.recipes.recipes.model.Recipe;
 import com.recipes.recipes.repository.TagRepository;
 import com.recipes.recipes.repository.RecipeRepository;
+
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +35,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    @Transactional
     public Tag addTag(Tag tag) {
         if (tag == null || tag.getName().trim() == null || tag.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("Tag name cannot be null or empty.");
@@ -47,6 +50,7 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    @Transactional
     public void deleteTagByName(String name) {
         if (name == null || name.isEmpty()) {
             throw new IllegalArgumentException("Tag name cannot be null or empty.");

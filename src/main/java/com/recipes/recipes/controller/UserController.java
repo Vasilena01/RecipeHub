@@ -47,7 +47,7 @@ public class UserController {
     public ResponseEntity<ApiResponse<User>> editUser(@Valid @RequestBody User user) {
         User editedUser = userService.editUser(user);
         ApiResponse<User> response = new ApiResponse<User>(
-            "User created successfully", editedUser, 200);
+            "User edited successfully", editedUser, 200);
         return ResponseEntity.ok(response);
     }
 

@@ -3,6 +3,8 @@ import com.recipes.recipes.dto.UserLogin;
 import com.recipes.recipes.dto.UserRegister;
 import com.recipes.recipes.model.User;
 import com.recipes.recipes.repository.UserRepository;
+
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ public class AuthServiceImpl implements AuthService {
     private UserRepository userRepository;
 
     @Override
+    @Transactional
     public User register(UserRegister registerRequest) {
         User currUser = userRepository.findByUsername(registerRequest.getUsername());
         if (currUser != null) {
