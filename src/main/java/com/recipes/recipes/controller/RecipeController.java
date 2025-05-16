@@ -72,7 +72,8 @@ public class RecipeController {
         Recipe newRecipe = recipeService.editRecipe(recipe);
         ApiResponse<Recipe> response = new ApiResponse<Recipe>(
             "Recipe edited successfully", newRecipe, 200);
-        return ResponseEntity.ok(response);    }
+        return ResponseEntity.ok(response);    
+    }
 
     @DeleteMapping("/{recipeId}/delete/{tagName}")
     public ResponseEntity<ApiResponse<String>> removeTagFromRecipe(@PathVariable int recipeId, @PathVariable String tagName) {

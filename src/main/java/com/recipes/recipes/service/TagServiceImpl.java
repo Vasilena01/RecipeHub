@@ -5,7 +5,6 @@ import com.recipes.recipes.repository.TagRepository;
 import com.recipes.recipes.repository.RecipeRepository;
 
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,12 +13,15 @@ import java.util.Optional;
 @Service
 public class TagServiceImpl implements TagService {
 
-    @Autowired
-    private TagRepository tagRepository;
-    @Autowired
-    private RecipeRepository recipeRepository;
-    @Autowired
-    private RecipeService recipeService;
+    private final TagRepository tagRepository;
+    private final RecipeRepository recipeRepository;
+    private final RecipeService recipeService;
+
+    public TagServiceImpl(TagRepository tagRepository, RecipeRepository recipeRepository, RecipeService recipeService) {
+        this.recipeRepository = recipeRepository;
+        this.recipeService = recipeService;
+        this.tagRepository = tagRepository;
+    }
 
     @Override
     public List<Tag> getAllTags() {

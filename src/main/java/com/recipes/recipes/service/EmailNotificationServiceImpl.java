@@ -4,18 +4,19 @@ import com.recipes.recipes.model.User;
 import com.recipes.recipes.repository.UserRepository;
 import com.recipes.recipes.event.RecipeCreatedEvent;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmailNotificationServiceImpl implements EmailNotificationService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final EmailService emailService;
 
-    @Autowired
-    private EmailService emailService;
+    public EmailNotificationServiceImpl(UserRepository userRepository, EmailService emailService) {
+        this.userRepository = userRepository;
+        this.emailService = emailService;
+    }
 
     @EventListener
     public void handleRecipeCreatedEvent(RecipeCreatedEvent event) {

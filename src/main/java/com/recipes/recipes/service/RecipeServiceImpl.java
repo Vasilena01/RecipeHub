@@ -7,7 +7,6 @@ import com.recipes.recipes.repository.UserRepository;
 import com.recipes.recipes.repository.TagRepository;
 
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -17,14 +16,21 @@ import java.util.Optional;
 @Service
 public class RecipeServiceImpl implements RecipeService {
     
-    @Autowired
-    private RecipeRepository recipeRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private TagRepository tagRepository;
-    @Autowired
-    private ApplicationEventPublisher eventPublisher;
+    // Using constructor injection, instead of field injection with autowired
+    private final RecipeRepository recipeRepository;
+    private final UserRepository userRepository;
+    private final TagRepository tagRepository;
+    private final ApplicationEventPublisher eventPublisher;
+
+    public RecipeServiceImpl(RecipeRepository recipeRepository,
+                             UserRepository userRepository,
+                             TagRepository tagRepository,
+                             ApplicationEventPublisher eventPublisher) {
+        this.recipeRepository = recipeRepository;
+        this.userRepository = userRepository;
+        this.tagRepository = tagRepository;
+        this.eventPublisher = eventPublisher;
+    }
 
     @Override
     public List<Recipe> getAllRecipes() {
